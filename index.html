@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Party Games Hub - Chơi cùng bạn bè!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">🎮 Party Games</h1>
+            <div class="player-count">
+                <span class="status-dot"></span>
+                <span id="playerCount">0 người online</span>
+            </div>
+        </header>
+
+        <!-- Home Screen -->
+        <div id="homeScreen" class="screen active">
+            <div class="welcome-section">
+                <h2 class="welcome-title">Chào mừng đến Party Games! 🎉</h2>
+                <p class="welcome-subtitle">Chơi game vui nhộn cùng 6-8 bạn bè</p>
+            </div>
+
+            <div class="name-input-section">
+                <input type="text" id="playerName" placeholder="Nhập tên của bạn..." maxlength="15">
+                <button id="joinBtn" class="btn btn-primary">Tham gia ngay!</button>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <span class="feature-icon">🎨</span>
+                    <h3>Quick Draw</h3>
+                    <p>Vẽ và đoán từ cực vui</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🧠</span>
+                    <h3>Trivia Battle</h3>
+                    <p>Đố vui kiến thức</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🃏</span>
+                    <h3>Spy Hunt</h3>
+                    <p>Tìm điệp viên bí mật</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lobby Screen -->
+        <div id="lobbyScreen" class="screen">
+            <div class="lobby-header">
+                <h2>🎪 Phòng chờ</h2>
+                <button id="leaveBtn" class="btn btn-secondary">Rời phòng</button>
+            </div>
+
+            <div class="players-grid" id="playersGrid">
+                <!-- Players will be added here dynamically -->
+            </div>
+
+            <div class="game-selection">
+                <h3>Chọn trò chơi:</h3>
+                <div class="game-buttons">
+                    <button class="game-select-btn" data-game="quickdraw">
+                        <span class="game-icon">🎨</span>
+                        <span>Quick Draw</span>
+                    </button>
+                    <button class="game-select-btn" data-game="trivia">
+                        <span class="game-icon">🧠</span>
+                        <span>Trivia Battle</span>
+                    </button>
+                    <button class="game-select-btn" data-game="spy">
+                        <span class="game-icon">🃏</span>
+                        <span>Spy Hunt</span>
+                    </button>
+                </div>
+            </div>
+
+            <button id="startGameBtn" class="btn btn-primary btn-large" disabled>
+                Bắt đầu game (cần ít nhất 3 người)
+            </button>
+        </div>
+
+        <!-- Quick Draw Game -->
+        <div id="quickDrawScreen" class="screen">
+            <div class="game-header">
+                <h2>🎨 Quick Draw</h2>
+                <div class="game-info">
+                    <span id="currentDrawer">Đang chờ...</span>
+                    <span id="drawTimer" class="timer">60s</span>
+                </div>
+            </div>
+
+            <div class="game-content">
+                <div class="canvas-container">
+                    <div id="wordToDrawDisplay" class="word-display">Từ: ⭐⭐⭐</div>
+                    <canvas id="drawCanvas" width="800" height="600"></canvas>
+                    <div class="drawing-tools">
+                        <input type="color" id="colorPicker" value="#000000">
+                        <input type="range" id="brushSize" min="2" max="20" value="5">
+                        <button id="clearCanvas" class="tool-btn">🗑️ Xóa</button>
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <div id="chatMessages" class="chat-messages"></div>
+                    <div class="chat-input-container">
+                        <input type="text" id="guessInput" placeholder="Đoán từ hoặc chat...">
+                        <button id="sendGuess" class="btn btn-primary">Gửi</button>
+                    </div>
+                    <div class="scoreboard" id="gameScoreboard"></div>
+                </div>
+            </div>
+
+            <button id="leaveGameBtn" class="btn btn-secondary">Về lobby</button>
+        </div>
+
+        <!-- Trivia Game -->
+        <div id="triviaScreen" class="screen">
+            <div class="game-header">
+                <h2>🧠 Trivia Battle</h2>
+                <div class="game-info">
+                    <span id="triviaRound">Câu 1/10</span>
+                    <span id="triviaTimer" class="timer">15s</span>
+                </div>
+            </div>
+
+            <div class="trivia-content">
+                <div class="question-card">
+                    <h3 id="triviaQuestion">Đang tải câu hỏi...</h3>
+                    <div class="answers-grid" id="answersGrid">
+                        <!-- Answers will be added dynamically -->
+                    </div>
+                </div>
+
+                <div class="trivia-scoreboard" id="triviaScoreboard"></div>
+            </div>
+
+            <button id="leaveTriviaBtn" class="btn btn-secondary">Về lobby</button>
+        </div>
+
+        <!-- Spy Hunt Game -->
+        <div id="spyScreen" class="screen">
+            <div class="game-header">
+                <h2>🃏 Spy Hunt</h2>
+                <div class="game-info">
+                    <span id="spyRound">Round 1</span>
+                    <span id="spyTimer" class="timer">120s</span>
+                </div>
+            </div>
+
+            <div class="spy-content">
+                <div class="spy-role-card">
+                    <h3>Vai trò của bạn:</h3>
+                    <div id="spyRole" class="role-display">🎭</div>
+                    <div id="spyLocation" class="location-display"></div>
+                </div>
+
+                <div class="spy-chat-container">
+                    <div id="spyChatMessages" class="chat-messages"></div>
+                    <div class="chat-input-container">
+                        <input type="text" id="spyChatInput" placeholder="Thảo luận với mọi người...">
+                        <button id="sendSpyChat" class="btn btn-primary">Gửi</button>
+                    </div>
+                </div>
+
+                <div class="voting-section" id="votingSection">
+                    <h3>🗳️ Bỏ phiếu cho điệp viên:</h3>
+                    <div id="votingButtons" class="voting-buttons"></div>
+                </div>
+            </div>
+
+            <button id="leaveSpyBtn" class="btn btn-secondary">Về lobby</button>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div id="notification" class="notification"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
